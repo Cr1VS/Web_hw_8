@@ -101,7 +101,7 @@ class CustomLogger:
             self.logger.error(f"Error setting log format: {e}")
 
 
-logger = CustomLogger("logging.log")
+logger = CustomLogger("Error.log")
 
 
 if __name__ == "__main__":
