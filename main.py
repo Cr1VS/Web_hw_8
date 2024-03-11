@@ -1,6 +1,6 @@
 from config.models import Author, Quote
 from typing import List, Dict, Union
-from customlogger import logger
+from custom_logger import logger
 import config.connect_db
 
 

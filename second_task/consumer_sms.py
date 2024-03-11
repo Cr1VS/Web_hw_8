@@ -10,7 +10,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 
 from config.models import Contact
-from customlogger import logger
+from custom_logger import logger
 import config.connect_db
 
 
@@ -29,7 +29,7 @@ def sms_notification(task: Contact) -> bool:
         logger.log(f"SMS successfully delivered to {task.phone_num}")
         return True
     except Exception as e:
-        logger.error(f"Error during SMS delivery: {e}")
+        logger.log(f"Error during SMS delivery: {e}", level=40)
         return False
 
 
@@ -54,11 +54,11 @@ def callback(ch, method, properties, body) -> None:
             if result:
                 task.update(set__logic_field=True, set__date_of=datetime.now())
             else:
-                logger.error("Failed during SMS delivery!")
+                logger.log("Failed during SMS delivery!", level=40)
         else:
-            logger.error("Empty data, I can't proceed further!")
+            logger.log("Empty data, I can't proceed further!", level=40)
     except Exception as e:
-        logger.error(f"Error processing message: {e}")
+        logger.log(f"Error processing message: {e}", level=40)
 
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
@@ -85,10 +85,10 @@ def main() -> None:
         logger.log(" [*] Waiting for messages. To exit press CTRL+C")
         channel.start_consuming()
     except KeyboardInterrupt:
-        logger.warning("Consumer interrupted by user.")
+        logger.log("Consumer interrupted by user.", level=40)
         sys.exit(0)
     except Exception as e:
-        logger.error(f"Error in main function: {e}")
+        logger.log(f"Error in main function: {e}", level=40)
         sys.exit(1)
 
 

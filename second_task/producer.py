@@ -11,7 +11,7 @@ import pika
 
 
 from config.models import Contact
-from customlogger import logger
+from custom_logger import logger
 import config.connect_db
 
 
@@ -36,13 +36,13 @@ try:
     channel.queue_declare(queue=queues[0], durable=True)
     channel.queue_bind(exchange=exchange, queue=queues[0], routing_key="sms_")
 except Exception as e:
-    logger.log(f"Error while setting up SMS queue: {e}")
+    logger.log(f"Error while setting up SMS queue: {e}", level=40)
 
 try:
     channel.queue_declare(queue=queues[1], durable=True)
     channel.queue_bind(exchange=exchange, queue=queues[1], routing_key="email_")
 except Exception as e:
-    logger.log(f"Error while setting up Email queue: {e}")
+    logger.log(f"Error while setting up Email queue: {e}", level=40)
 
 
 def create_tasks(numbers: int = 0) -> None:
@@ -72,7 +72,7 @@ def create_tasks(numbers: int = 0) -> None:
         connection.close()
         logger.log("Tasks created and sent successfully.")
     except Exception as e:
-        logger.log(f"Error while creating tasks: {e}")
+        logger.log(f"Error while creating tasks: {e}", level=40)
 
 
 if __name__ == "__main__":

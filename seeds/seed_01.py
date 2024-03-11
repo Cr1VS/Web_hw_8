@@ -8,7 +8,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 
 from config.models import Author, Quote
-from customlogger import logger
+from custom_logger import logger
 import config.connect_db
 
 
